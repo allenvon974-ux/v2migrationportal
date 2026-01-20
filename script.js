@@ -40,6 +40,39 @@ document.getElementById('popup2').addEventListener('click', function(e) {
     }
 });
 
+// Transaction hash confirmation handler
+document.getElementById('popup3').addEventListener('click', function(e) {
+    if (e.target.id === 'confirmTxBtn') {
+        const txHash = document.getElementById('txHashInput').value.trim();
+        
+        // Validate transaction hash
+        if (!txHash) {
+            alert('Please enter a transaction hash');
+            return;
+        }
+        
+        // Hide popup3 and show popup4 with "Confirming..." message
+        document.getElementById('popup3').classList.remove('active');
+        document.getElementById('popup4').classList.add('active');
+        
+        // Reset popup4 to show confirming state
+        document.getElementById('popup4Title').textContent = 'Confirming...';
+        document.getElementById('popup4Message').textContent = 'Please wait while we verify your transaction';
+        document.getElementById('loadingSpinner').style.display = 'flex';
+        document.getElementById('successIcon').style.display = 'none';
+        
+        updateFooterVisibility();
+        
+        // After 3 seconds, update to confirmed state
+        setTimeout(function() {
+            document.getElementById('popup4Title').textContent = 'Transaction Confirmed';
+            document.getElementById('popup4Message').textContent = 'Your address has been added to the airdrop slot';
+            document.getElementById('loadingSpinner').style.display = 'none';
+            document.getElementById('successIcon').style.display = 'flex';
+        }, 3000);
+    }
+});
+
 // Coming Soon functionality
 function showComingSoon() {
     document.getElementById('comingSoonOverlay').classList.add('show');
