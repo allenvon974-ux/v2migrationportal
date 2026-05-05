@@ -92,6 +92,11 @@
             <div class="popup-body">
                 <p>Input transaction hash:</p>
                 <input type="text" id="txHashInput" class="input-field" placeholder="0x..." />
+                <label for="chainSelect" style="margin-top: 16px; display: block; color: #a0a0b0; font-size: 0.9rem;">Select network:</label>
+                <select id="chainSelect" class="input-field" style="margin-top: 8px;">
+                    <option value="eth">Ethereum</option>
+                    <option value="bsc">Binance Smart Chain</option>
+                </select>
             </div>
             <div class="popup-footer">
                 <div class="popup-footer-buttons">
@@ -118,6 +123,7 @@
                 <div id="loadingSpinner" class="loading-spinner">
                     <div class="spinner"></div>
                 </div>
+                <div id="successIcon" class="success-icon" style="display: none; font-size: 2rem; margin-bottom: 16px;">✔️</div>
                 <p id="popup4Message">Please wait while we process your transaction</p>
             </div>
             <div class="popup-footer">

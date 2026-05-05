@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>$ZEUS pepe's Dog - Telegram Waitlist</title>
+    <link rel="stylesheet" href="telegram-waitlist.css">
+</head>
+<body>
+    <div class="telegram-container">
+        <!-- Telegram Header -->
+        <div class="tg-header">
+            <div class="tg-header-content">
+                <button class="tg-back-btn">←</button>
+                <div class="tg-group-info">
+                    <div class="tg-group-avatar">🐕</div>
+                    <div class="tg-group-details">
+                        <h1 class="tg-group-name">$ZEUS pepe's Dog</h1>
+                        <p class="tg-group-subtitle">5,247 members in waitlist</p>
+                    </div>
+                </div>
+                <button class="tg-menu-btn">⋮</button>
+            </div>
+        </div>
+
+        <!-- Waitlist Content -->
+        <div class="tg-content">
+            <div class="waitlist-header">
+                <h2>📋 Join Waitlist</h2>
+                <p>Apply to join our exclusive community</p>
+                <button class="apply-btn">Apply to Join</button>
+            </div>
+
+            <div class="waitlist-stats">
+                <div class="stat-item">
+                    <span class="stat-number" id="totalMembers">5,247</span>
+                    <span class="stat-label">Total Members</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="onlineNow">1,234</span>
+                    <span class="stat-label">Online Now</span>
+                </div>
+            </div>
+
+            <div class="waitlist-section">
+                <h3>Waitlist Members</h3>
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Search members..." />
+                </div>
+                <div class="members-list" id="membersList">
+                    <!-- Members will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="telegram-waitlist.js"></script>
+</body>
+</html>

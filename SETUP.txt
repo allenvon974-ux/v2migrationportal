@@ -1,0 +1,31 @@
+# DEXKIT Bot - Deployment Package for pella.app
+# 
+# This folder contains everything needed to host your Telegram bot on pella.app
+# 
+# Files included:
+# - bot.py: The main bot application
+# - requirements.txt: Python package dependencies
+# - .env: Environment variables (BOT_TOKEN and ADMIN_CHAT_ID)
+# - README.md: Deployment instructions
+# - SETUP.txt: This file
+#
+# HOW TO UPLOAD TO PELLA.APP:
+#
+# 1. Go to https://www.pella.app/telegram-bot-hosting
+# 2. Click "Get Started" or sign up
+# 3. Click "Upload Files" or "Create New Project"
+# 4. Select Python as the language
+# 5. Upload all files in this folder:
+#    - bot.py
+#    - requirements.txt
+#    - .env (optional - can set via environment variables)
+# 
+# 6. Set Environment Variables in pella.app:
+#    BOT_TOKEN=your_token_from_botfather
+#    ADMIN_CHAT_ID=your_telegram_chat_id
+#
+# 7. Start/Deploy the bot
+#
+# Your bot will be live on Telegram!
+#
+# For detailed setup, see README.md
