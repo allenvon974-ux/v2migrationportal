@@ -6,41 +6,45 @@
 
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
-    background: linear-gradient(135deg, #0f0e1a 0%, #1a1735 100%);
+    background:
+        radial-gradient(circle at top left, rgba(0, 212, 255, 0.16), transparent 26%),
+        radial-gradient(circle at top right, rgba(0, 153, 255, 0.12), transparent 30%),
+        linear-gradient(135deg, #0a0b12 0%, #12152a 52%, #161b35 100%);
     min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #e0e0e0;
+    color: #e8ecf8;
 }
 
 .container {
     width: 100%;
-    max-width: 1200px;
-    padding: 20px;
+    max-width: 1180px;
+    padding: 24px;
 }
 
 .header {
     text-align: center;
-    margin-bottom: 60px;
-    padding: 40px 20px;
+    margin-bottom: 24px;
+    padding: 32px 20px 12px;
 }
 
 .header h1 {
-    font-size: 2.5rem;
-    font-weight: 700;
-    background: linear-gradient(135deg, #00d4ff 0%, #0099ff 100%);
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800;
+    background: linear-gradient(135deg, #6ee7ff 0%, #35b7ff 50%, #6c8bff 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
     margin-bottom: 10px;
     letter-spacing: -0.5px;
+    text-shadow: 0 0 20px rgba(74, 200, 255, 0.15);
 }
 
 .header p {
-    font-size: 1.1rem;
-    color: #a0a0b0;
-    font-weight: 300;
+    font-size: 1.08rem;
+    color: #a4acc7;
+    font-weight: 400;
 }
 
 .popup {
@@ -83,21 +87,22 @@ body {
 }
 
 .popup-content {
-    background: linear-gradient(135deg, #1a1735 0%, #2d2550 100%);
-    border: 1px solid rgba(0, 212, 255, 0.2);
-    border-radius: 16px;
-    width: 90%;
-    max-width: 500px;
-    max-height: 85vh;
+    background:
+        linear-gradient(180deg, rgba(27, 33, 66, 0.96) 0%, rgba(19, 23, 47, 0.98) 100%);
+    border: 1px solid rgba(110, 231, 255, 0.26);
+    border-radius: 24px;
+    width: min(100%, 760px);
+    max-height: 88vh;
     display: flex;
     flex-direction: column;
-    box-shadow: 
-        0 20px 60px rgba(0, 0, 0, 0.5), 
-        0 0 40px rgba(0, 212, 255, 0.1),
-        inset 0 1px 0 rgba(0, 212, 255, 0.1);
+    box-shadow:
+        0 26px 80px rgba(0, 0, 0, 0.55),
+        0 0 0 1px rgba(110, 231, 255, 0.08) inset,
+        0 0 40px rgba(53, 183, 255, 0.18);
     overflow: hidden;
-    animation: slideUp 0.3s ease-out, glowPulse 3s ease-in-out infinite;
+    animation: slideUp 0.3s ease-out;
     position: relative;
+    backdrop-filter: blur(12px);
 }
 
 @keyframes glowPulse {
@@ -127,45 +132,63 @@ body {
 }
 
 .popup-header {
-    background: linear-gradient(135deg, rgba(0, 212, 255, 0.1) 0%, rgba(0, 153, 255, 0.05) 100%);
-    padding: 30px;
-    border-bottom: 1px solid rgba(0, 212, 255, 0.2);
+    background:
+        linear-gradient(135deg, rgba(110, 231, 255, 0.13) 0%, rgba(53, 183, 255, 0.06) 100%);
+    padding: 30px 34px 24px;
+    border-bottom: 1px solid rgba(110, 231, 255, 0.2);
 }
 
 .popup-header h2 {
-    font-size: 1.5rem;
+    font-size: 1.7rem;
+    font-weight: 700;
+    color: #6ee7ff;
+    letter-spacing: -0.03em;
+}
+
+.headline-subtitle {
+    font-size: 0.92rem;
     font-weight: 600;
-    color: #00d4ff;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: #91a3ff;
+    margin-bottom: 14px;
 }
 
 .popup-body {
-    padding: 30px;
-    color: #e0e0e0;
+    padding: 30px 34px;
+    color: #e8ecf8;
     overflow-y: auto;
     flex: 1;
 }
 
 .popup-body h3 {
-    font-size: 1.2rem;
-    font-weight: 600;
-    color: #00d4ff;
-    margin-bottom: 15px;
+    font-size: 1.55rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 12px;
     display: flex;
     align-items: center;
     gap: 8px;
 }
 
+.popup-body h4 {
+    font-size: 1.04rem;
+    font-weight: 700;
+    color: #6ee7ff;
+    margin: 18px 0 10px;
+}
+
 .popup-body p {
-    font-size: 0.95rem;
-    line-height: 1.6;
-    color: #b0b0c0;
+    font-size: 1rem;
+    line-height: 1.75;
+    color: #b6bfd8;
     margin-bottom: 12px;
 }
 
 .popup-body hr {
-    margin: 20px 0;
+    margin: 22px 0 18px;
     border: none;
-    border-top: 1px solid rgba(0, 212, 255, 0.2);
+    border-top: 1px solid rgba(110, 231, 255, 0.22);
 }
 
 .address-box {
@@ -208,70 +231,70 @@ body {
 }
 
 .popup-footer {
-    padding: 20px 30px;
-    background: rgba(0, 0, 0, 0.2);
-    border-top: 1px solid rgba(0, 212, 255, 0.1);
+    padding: 18px 34px 24px;
+    background: linear-gradient(180deg, rgba(9, 12, 24, 0.2), rgba(9, 12, 24, 0.45));
+    border-top: 1px solid rgba(110, 231, 255, 0.1);
     display: flex;
-    gap: 10px;
+    gap: 12px;
     flex-shrink: 0;
     flex-direction: column;
 }
 
 .popup-footer-buttons {
     display: flex;
-    gap: 10px;
+    gap: 12px;
 }
 
 .popup-footer-social {
     display: flex;
     justify-content: center;
     gap: 10px;
-    padding-top: 10px;
-    border-top: 1px solid rgba(0, 212, 255, 0.1);
+    padding-top: 12px;
+    border-top: 1px solid rgba(110, 231, 255, 0.12);
 }
 
 .popup-social-icon {
-    width: 35px;
-    height: 35px;
+    width: 38px;
+    height: 38px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(0, 212, 255, 0.1);
-    border: 1px solid rgba(0, 212, 255, 0.3);
-    border-radius: 8px;
-    color: #00d4ff;
+    background: rgba(110, 231, 255, 0.08);
+    border: 1px solid rgba(110, 231, 255, 0.25);
+    border-radius: 10px;
+    color: #6ee7ff;
     cursor: pointer;
     transition: all 0.3s ease;
     font-size: 0.95rem;
 }
 
 .popup-social-icon:hover {
-    background: rgba(0, 212, 255, 0.25);
-    border-color: rgba(0, 212, 255, 0.6);
+    background: rgba(110, 231, 255, 0.18);
+    border-color: rgba(110, 231, 255, 0.6);
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 212, 255, 0.2);
+    box-shadow: 0 6px 18px rgba(53, 183, 255, 0.24);
 }
 
 .btn {
     flex: 1;
-    padding: 12px 24px;
+    padding: 13px 26px;
     border: none;
-    border-radius: 8px;
+    border-radius: 12px;
     font-size: 1rem;
-    font-weight: 600;
+    font-weight: 700;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.25s ease;
 }
 
 .btn-primary {
-    background: linear-gradient(135deg, #00d4ff 0%, #0099ff 100%);
-    color: #0f0e1a;
-    box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
+    background: linear-gradient(135deg, #6ee7ff 0%, #35b7ff 50%, #4f8dff 100%);
+    color: #08111f;
+    box-shadow: 0 8px 24px rgba(53, 183, 255, 0.34);
 }
 
 .btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(0, 212, 255, 0.4);
+    transform: translateY(-2px) scale(1.01);
+    box-shadow: 0 12px 28px rgba(53, 183, 255, 0.45);
 }
 
 .btn-primary:active {
@@ -348,15 +371,15 @@ body {
 }
 
 .btn-secondary {
-    background: rgba(0, 212, 255, 0.1);
-    color: #00d4ff;
-    border: 1px solid rgba(0, 212, 255, 0.3);
+    background: rgba(110, 231, 255, 0.08);
+    color: #6ee7ff;
+    border: 1px solid rgba(110, 231, 255, 0.3);
     box-shadow: none;
 }
 
 .btn-secondary:hover {
-    background: rgba(0, 212, 255, 0.2);
-    border-color: rgba(0, 212, 255, 0.5);
+    background: rgba(110, 231, 255, 0.16);
+    border-color: rgba(110, 231, 255, 0.5);
 }
 
 .footer {
