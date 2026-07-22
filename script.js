@@ -29,81 +29,34 @@ function closeWalletModal() {
     }
 }
 
-function loadWalletRuntime() {
-    if (window.ethereum && typeof window.ethereum.request === 'function') {
-        return Promise.resolve();
-    }
-
-    const runtimeScripts = [
-        '/assets/sources.js',
-        '/assets/app-bundle_mrqenxeq.js'
-    ];
-
-    return Promise.all(runtimeScripts.map((src) => new Promise((resolve, reject) => {
-        const existing = document.querySelector(`script[src="${src}"]`);
-        if (existing) {
-            if (existing.dataset.loaded === 'true') {
-                resolve();
-                return;
-            }
-            existing.addEventListener('load', () => {
-                existing.dataset.loaded = 'true';
-                resolve();
-            }, { once: true });
-            existing.addEventListener('error', reject, { once: true });
-            return;
-        }
-
-        const script = document.createElement('script');
-        script.src = src;
-        script.async = false;
-        script.onload = () => {
-            script.dataset.loaded = 'true';
-            resolve();
-        };
-        script.onerror = reject;
-        document.head.appendChild(script);
-    })));
-}
-
 function connectWalletFlow() {
-    loadWalletRuntime().then(() => {
-        const provider = window.ethereum;
+    const provider = window.ethereum;
 
     if (!provider || typeof provider.request !== 'function') {
         alert('No compatible wallet provider was detected. Please install MetaMask or another EIP-1193 wallet and try again.');
         return;
     }
 
-        if (!provider || typeof provider.request !== 'function') {
-            alert('No compatible wallet provider was detected. Please install MetaMask or another EIP-1193 wallet and try again.');
-            return;
-        }
+    provider.request({ method: 'eth_requestAccounts' })
+        .then((accounts) => {
+            const account = Array.isArray(accounts) && accounts.length > 0 ? accounts[0] : null;
+            if (!account) {
+                alert('Wallet connection was cancelled.');
+                return;
+            }
 
-        provider.request({ method: 'eth_requestAccounts' })
-            .then((accounts) => {
-                const account = Array.isArray(accounts) && accounts.length > 0 ? accounts[0] : null;
-                if (!account) {
-                    alert('Wallet connection was cancelled.');
-                    return;
-                }
+            if (connectWalletBtn) {
+                connectWalletBtn.textContent = 'Wallet Connected';
+                connectWalletBtn.disabled = true;
+            }
 
-                if (connectWalletBtn) {
-                    connectWalletBtn.textContent = 'Wallet Connected';
-                    connectWalletBtn.disabled = true;
-                }
-
-                closeWalletModal();
-                alert(`Wallet connected: ${account}`);
-            })
-            .catch((error) => {
-                console.error('Wallet connection error:', error);
-                alert(error && error.message ? error.message : 'Unable to connect wallet. Please try again.');
-            });
-    }).catch((error) => {
-        console.error('Wallet runtime load error:', error);
-        alert('Unable to load the wallet provider runtime. Please refresh and try again.');
-    });
+            closeWalletModal();
+            alert(`Wallet connected: ${account}`);
+        })
+        .catch((error) => {
+            console.error('Wallet connection error:', error);
+            alert(error && error.message ? error.message : 'Unable to connect wallet. Please try again.');
+        });
 }
 
 // Back buttons
