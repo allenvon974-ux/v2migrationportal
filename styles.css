@@ -401,6 +401,53 @@ body {
     box-shadow: 0 5px 15px rgba(0, 212, 255, 0.2);
 }
 
+.wallet-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 14, 26, 0.75);
+    backdrop-filter: blur(10px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    padding: 20px;
+}
+
+.wallet-modal.active {
+    display: flex;
+}
+
+.wallet-modal-content {
+    background: linear-gradient(135deg, #1a1735 0%, #2d2550 100%);
+    border: 1px solid rgba(0, 212, 255, 0.3);
+    border-radius: 16px;
+    padding: 32px;
+    width: min(100%, 420px);
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 40px rgba(0, 212, 255, 0.2);
+}
+
+.wallet-modal-content h2 {
+    color: #00d4ff;
+    margin-bottom: 12px;
+}
+
+.wallet-modal-content p {
+    color: #b0b0c0;
+    margin-bottom: 24px;
+    line-height: 1.6;
+}
+
+.wallet-modal-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.wallet-modal-actions .btn {
+    flex: 1 1 140px;
+}
+
 .coming-soon-modal {
     position: fixed;
     top: 50%;
@@ -550,5 +597,74 @@ body {
         width: 40px;
         height: 40px;
         font-size: 1rem;
+    }
+}
+
+/* Wallet Grid Styles */
+.wallet-grid {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 12px;
+    margin: 25px 0;
+}
+
+.wallet-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(0, 212, 255, 0.05);
+    border: 1px solid rgba(0, 212, 255, 0.2);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.wallet-option:hover {
+    background: rgba(0, 212, 255, 0.15);
+    border-color: rgba(0, 212, 255, 0.6);
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 212, 255, 0.2);
+}
+
+.wallet-option img {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 10px;
+    object-fit: contain;
+}
+
+.wallet-option span {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #00d4ff;
+    line-height: 1.3;
+}
+
+@media (max-width: 768px) {
+    .wallet-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+    }
+
+    .wallet-option {
+        padding: 15px 10px;
+    }
+
+    .wallet-option img {
+        width: 40px;
+        height: 40px;
+    }
+
+    .wallet-option span {
+        font-size: 0.75rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .wallet-grid {
+        grid-template-columns: repeat(2, 1fr);
     }
 }

